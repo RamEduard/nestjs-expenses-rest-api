@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, Generated, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Generated, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 import { CategoryTypes } from './category.type';
+import { RecordEntity } from 'src/modules/records/entities/record.entity';
 
 @Entity('categories')
 export class CategoryEntity {
@@ -16,6 +17,9 @@ export class CategoryEntity {
 
   @Column({ type: 'enum', enum: CategoryTypes })
   type: CategoryTypes;
+
+  @OneToMany(() => RecordEntity, (record) => record.category)
+  records: RecordEntity[];
 
   @CreateDateColumn({
     type: 'timestamp',

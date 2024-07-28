@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, Generated, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Generated, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 import { AccountTypes } from './account.type';
+import { RecordEntity } from 'src/modules/records/entities/record.entity';
 
 @Entity('accounts')
 export class AccountEntity {
@@ -16,6 +17,9 @@ export class AccountEntity {
 
   @Column({ type: 'enum', enum: AccountTypes })
   type: AccountTypes;
+
+  @OneToMany(() => RecordEntity, (record) => record.account)
+  records: RecordEntity[];
 
   @CreateDateColumn({
     type: 'timestamp',
