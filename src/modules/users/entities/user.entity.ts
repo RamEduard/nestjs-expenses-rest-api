@@ -37,4 +37,3 @@ export class UserEntity {
   @OneToMany(() => RecordEntity, (record) => record.user)
   records: RecordEntity[];
 }
-export class User {}
