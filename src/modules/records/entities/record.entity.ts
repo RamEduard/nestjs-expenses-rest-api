@@ -1,8 +1,9 @@
 import { Column, CreateDateColumn, Entity, Generated, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
-import { RecordTypes } from './record.type';
-import { CategoryEntity } from 'src/modules/categories/entities/category.entity';
 import { AccountEntity } from 'src/modules/accounts/entities/account.entity';
+import { CategoryEntity } from 'src/modules/categories/entities/category.entity';
+import { RecordTypes } from './record.type';
+import { UserEntity } from 'src/modules/users/entities/user.entity';
 
 @Entity('records')
 export class RecordEntity {
@@ -30,6 +31,9 @@ export class RecordEntity {
 
   @ManyToOne(() => CategoryEntity, (category) => category.records)
   category: CategoryEntity;
+
+  @ManyToOne(() => UserEntity, (user) => user.records)
+  user: UserEntity;
 
   @CreateDateColumn({
     type: 'timestamp',
