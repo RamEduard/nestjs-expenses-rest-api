@@ -1,4 +1,13 @@
-import { Column, CreateDateColumn, Entity, Generated, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Generated,
+  ManyToOne,
+  PrimaryColumn,
+  RelationId,
+  UpdateDateColumn,
+} from 'typeorm';
 
 import { AccountEntity } from 'src/modules/accounts/entities/account.entity';
 import { CategoryEntity } from 'src/modules/categories/entities/category.entity';
@@ -17,6 +26,9 @@ export class RecordEntity {
   @Column({ type: 'varchar', length: 3 }) // Example: USD
   currencyCode: string;
 
+  @Column({ type: 'date', nullable: true })
+  date: Date;
+
   @Column({ type: 'varchar', length: 255 })
   name: string;
 
@@ -29,11 +41,23 @@ export class RecordEntity {
   @ManyToOne(() => AccountEntity, (account) => account.records)
   account: AccountEntity;
 
+  @RelationId((record: RecordEntity) => record.account)
+  @Column({ type: 'uuid', nullable: true })
+  accountId: string;
+
   @ManyToOne(() => CategoryEntity, (category) => category.records)
   category: CategoryEntity;
 
+  @RelationId((record: RecordEntity) => record.category)
+  @Column({ type: 'uuid', nullable: true })
+  categoryId: string;
+
   @ManyToOne(() => UserEntity, (user) => user.records)
   user: UserEntity;
+
+  @RelationId((record: RecordEntity) => record.user)
+  @Column({ type: 'uuid', nullable: true })
+  userId: string;
 
   @CreateDateColumn({
     type: 'timestamp',
